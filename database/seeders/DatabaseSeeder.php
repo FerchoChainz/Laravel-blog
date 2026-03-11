@@ -2,7 +2,13 @@
 
 namespace Database\Seeders;
 
+use App\Models\Answer;
+use App\Models\Blog;
+use App\Models\Category;
+use App\Models\Comment;
+use App\Models\Question;
 use App\Models\User;
+
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -18,6 +24,35 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
+        ]);
+
+        $categories = Category::factory(4)->create();
+
+        $questions = Question::factory(30)->create([
+            'user_id' => fn()=> User::inRandomOrder()->first()->id,
+            'category_id' => fn()  => $categories->random()->id,
+        ]);
+
+        $answers = Answer::factory(50)->create([
+            'user_id' => fn()=> User::inRandomOrder()->first()->id,
+            'question_id' => fn()  => $questions->random()->id,
+        ]);
+
+        Comment::factory(100)->create([
+            'user_id' => fn()=> User::inRandomOrder()->first()->id,
+            'commentable_id' => fn()=> $answers->random()->id,
+            'commentable_type' => Answer::class,
+        ]);
+
+        Comment::factory(100)->create([
+            'user_id' => fn()=> User::inRandomOrder()->first()->id,
+            'commentable_id' => fn()=> $questions->random()->id,
+            'commentable_type' => Question::class,
+        ]);
+
+        Blog::factory(20)->create([
+            'user_id' => fn()=> User::inRandomOrder()->first()->id,
+            'category_id' => fn()  => $categories->random()->id,
         ]);
     }
 }
