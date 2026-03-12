@@ -6,7 +6,7 @@
         <li class="flex justify-between gap-4 py-4">
             <div class="flex gap-4">
                 <div class="size-8 rounded-full flex items-center justify-center" style="background-color: {{ $question->category->color }}">
-                    <!-- logo -->
+                    <x-forum.logo class="h-6 text-white"/>
                 </div>
                 <div class="flex-auto">
                     <p class="text-sm font-semibold text-gray-900">
@@ -31,7 +31,9 @@
     </h2>
 
     @foreach ($blogs as $blog)
-    <div class="mt-4">
+
+        <div class="mt-4">
+
         <h3 class="text-md font-semibold text-gray-900">
             <a href="{{ route('blogs.show', $blog) }}" class="hover:underline">
                 {{ $blog->title }}
@@ -44,6 +46,8 @@
             {{ $blog->created_at->diffForHumans() }}
         </p>
     </div>
+
+
     @endforeach
 
 </x-forum.layouts.home>
