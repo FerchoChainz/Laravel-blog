@@ -14,4 +14,9 @@ class Answer extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function comments(){
+        // This defines a relationship where each question can have many comments
+        return $this->morphMany(Comment::class,'commentable'); //able to be used for both questions and answers
+    }
 }

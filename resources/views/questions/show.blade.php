@@ -1,5 +1,5 @@
 <x-forum.layouts.app>
-<!-- component: forum/layouts/app -->
+    <!-- component: forum/layouts/app -->
 
     <div class="flex items-center gap-2 w-full my-8">
         <div>&hearts;</div>
@@ -35,14 +35,14 @@
 
     <div class="my-4">
         <p class="text-gray-200">
-            {{ $question->content }}
+            {{ $question->description }}
         </p>
 
-        <!-- Comments -->
+        <livewire:comment :commentable="$question"/>
     </div>
 
     <ul class="space-y-4">
-    @foreach ($question->answers as $answer)
+        @foreach ($question->answers as $answer)
         <li>
             <div class="flex items-start gap-2">
                 <div>&hearts;</div>
@@ -56,7 +56,8 @@
                         {{ $answer->created_at->diffForHumans()   }}
                     </p>
 
-                    <!-- Comments -->
+                    <livewire:comment :commentable="$answer"/>
+                    </p>
                 </div>
             </div>
         </li>
@@ -65,5 +66,5 @@
 
     </ul>
 
-<!-- component: forum/layouts/app -->
+    <!-- component: forum/layouts/app -->
 </x-forum.layouts.app>
