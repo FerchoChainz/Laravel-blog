@@ -18,4 +18,25 @@ class Comment extends Model
     public function user(){
         return $this->belongsTo(User::class);
     }
+
+
+    public function hearts(){
+
+        return $this->morphMany(Heart::class,'heartable'); //able to be used for both questions and answers
+    }
+
+    public function isHearted(){
+        return $this->hearts()->where('user_id',20)->exists();
+    }
+
+    public function heart(){
+        $this->hearts()->create([
+            'user_id' => 20
+        ]);
+    }
+
+    public function unhearted(){
+        $this->hearts()->where('user_id',20)->delete();
+    }
 }
+
