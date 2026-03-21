@@ -33,6 +33,7 @@ class Question extends Model
         return $this->morphMany(Comment::class,'commentable'); //able to be used for both questions and answers
     }
 
+
 }
 
 
