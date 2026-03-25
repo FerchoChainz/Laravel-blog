@@ -33,6 +33,32 @@ class Question extends Model
         return $this->morphMany(Comment::class,'commentable'); //able to be used for both questions and answers
     }
 
+    protected static function booted(){
+        static::deleting(function($question){
+            // delete all the hearts
+            $question->hearts()->delete();
+
+            // delete all the comments and their hearts
+            $question->comments()->get()->each(function($comment) {
+                $comment->hearts()->delete();
+
+                $comment->delete();
+            });
+
+            // delete all the answers and their comments and hearts
+            $question->answers()->get()->each(function($answer){
+                $answer->hearts()->delete();
+
+                // delete all the comments and their hearts for each answer
+                $answer->comments()->get()->each(function($comment) {
+                    $comment->hearts()->delete();
+
+                    $comment->delete();
+                });
+            });
+        });
+    }
+
 
 }
 
